@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-15
 
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +21,7 @@ jobs:
 
       - name: Publish
         env:
+          DEVELOPER_DIR: /Applications/Xcode_16.4.app
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "0.1.${{ github.run_number }}" \

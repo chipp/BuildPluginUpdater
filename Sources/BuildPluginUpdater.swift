@@ -25,9 +25,8 @@ struct StandardError: TextOutputStream, Sendable {
     }
 }
 
-var stderr = StandardError()
-
 public func eprint(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    var stderr = StandardError()
     print(items, separator: separator, terminator: terminator, to: &stderr)
 }
 

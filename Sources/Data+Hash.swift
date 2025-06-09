@@ -1,10 +1,3 @@
-//
-//  Data+Hash.swift
-//  update
-//
-//  Created by Vladimir Burdukov on 04/10/2024.
-//
-
 import Foundation
 import CryptoKit
 
