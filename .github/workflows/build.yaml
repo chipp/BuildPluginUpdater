@@ -1,0 +1,29 @@
+name: Swift
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set version
+        run: |
+          sed -i '' -E "s/version: \"[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+\"/version: \"0.1.${{ github.run_number }}\"/g" Sources/BuildPluginUpdater.swift
+          grep -e 'version: "\d*\.\d*\.\d*"' Sources/BuildPluginUpdater.swift
+
+      - name: Build
+        run: swift build -c release
+
+      - name: Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "0.1.${{ github.run_number }}" \
+                --repo="$GITHUB_REPOSITORY" \
+                --title="0.1.${{ github.run_number }}" \
+                $(swift build -c release --show-bin-path)/BuildPluginUpdater

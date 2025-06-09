@@ -17,10 +17,18 @@ struct BinaryDependency {
 
 @main
 struct BuildPluginUpdater: AsyncParsableCommand {
+    static var configuration: CommandConfiguration {
+        CommandConfiguration(
+            version: "1.0.0"
+        )
+    }
+
     @Argument(transform: RelativePath.init(validating:))
     var packagePath: RelativePath
 
     mutating func run() async throws {
+        print("version:", Self.configuration.version)
+
         let workingDirectory = try AbsolutePath(validating: FileManager.default.currentDirectoryPath)
         let packagePath = workingDirectory.appending(packagePath)
 
